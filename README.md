@@ -11,13 +11,20 @@ everything is being done in vscode with esp-idf because that seems like the most
     - consume serial
         - get the calibration data of the bike from bootup
             -  store it somehow with the nonvolatile storage module
+                https://github.com/espressif/esp-idf/tree/master/examples/storage/nvs_rw_value
         - capture data from bike
             - create two interrupt-driven uart receive tasks
-            - store that in a ringbuffer (like Imran) or some other way for consumption by the bluetooth broadcaster
+                https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/uart.html
+                https://github.com/espressif/esp-idf/tree/master/examples/peripherals/uart/uart_echo
+                https://github.com/espressif/esp-idf/tree/master/examples/peripherals/uart/uart_async_rxtxtasks
+            - store that in a way the ble server can get at it (?????)
     - output bluetooth
+        https://www.espressif.com/sites/default/files/documentation/esp32_bluetooth_architecture_en.pdf
         - configure the radio
-            - implement a task to, at regular intervals, broadcast the current data
-        - advertise the bluetooth feed's existence
+            - set up advertising of the GATT
+                https://github.com/espressif/esp-idf/blob/master/examples/bluetooth/bluedroid/ble/gatt_server_service_table/tutorial/Gatt_Server_Service_Table_Example_Walkthrough.md
             - create the matching GATT profile that is known to work based on the DFC's open source information and Imran's GATT config files
+                https://github.com/intelligenate/dfc/blob/main/src/arduino/IrieTron_3030.ino
         - pack it up and send it over
-            - parse the data 
+            - parse the data
+            - wait for a request I think?
